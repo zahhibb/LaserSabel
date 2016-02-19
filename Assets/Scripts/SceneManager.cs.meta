@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: c1c64b1686c5881469b87d5b58550a91
+timeCreated: 1455729205
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - Lasersabel1: {fileID: 163092, guid: c0d73baf6cc1dff4281b1c8bdbf589d9, type: 2}
+  - Lasersabel2: {fileID: 114734, guid: 6c2d02fa8ec281642ac696338d658279, type: 2}
+  - Lasersabel3: {fileID: 163092, guid: c0d73baf6cc1dff4281b1c8bdbf589d9, type: 2}
+  - Lasersabel4: {fileID: 114734, guid: 6c2d02fa8ec281642ac696338d658279, type: 2}
+  - m_fancyCam: {instanceID: 0}
+  - m_canvasText: {instanceID: 0}
+  - m_playerPrefab1: {fileID: 140164, guid: fb113aec538ae024f9b055c9ac57a5ca, type: 2}
+  - m_playerPrefab2: {fileID: 127178, guid: 75d7393752413424b8a7453380d51ce7, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -52,17 +52,14 @@ public class ScreenFlash : MonoBehaviour {
         }
     }
 
-    private void SetPixelAlpha(float a)
-    {
+    private void SetPixelAlpha(float a){
         m_color.a = a;
         m_pixel.SetPixel(0, 0, m_color);
         m_pixel.Apply();
     }
 
-    private void OnGUI()
-    {
-        switch (m_state)
-        {
+    private void OnGUI(){
+        switch (m_state){
             case FLASHSTATE.UP:
                 SetPixelAlpha(Mathf.Lerp(m_startAlpha, m_maxAlpha, m_timer.Elapsed));
                 break;
@@ -76,8 +73,7 @@ public class ScreenFlash : MonoBehaviour {
         GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), m_pixel);
     }
 
-    public void ClashFlash()
-    {
+    public void ClashFlash(){
         m_timer = new Timer(Mathf.Clamp(m_rampUpTime - Random.Range(0f, m_rampUpTime * m_chanceForFLash), 0f, m_rampUpTime));
         m_state = FLASHSTATE.UP;
         //Debug.Log("Flash Called from Clash");

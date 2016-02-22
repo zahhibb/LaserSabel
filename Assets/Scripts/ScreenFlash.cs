@@ -7,97 +7,79 @@ using System.Collections;
 
 public class ScreenFlash : MonoBehaviour {
 
-    private Texture2D pixel;
-    public Color color = Color.white;
-    public float startAlpha = 0.0f;
-    public float maxAlpha = 0.2f;
-    public float rampUpTime = 0.001f;
-    public float holdTime = 0.001f;
-    public float rampDownTime = 0.001f;
-    private float chanceForFLash = 3f; // the higher the lower :D
+    private Texture2D m_pixel;
+    private Color m_color = Color.white;
+    private float m_startAlpha = 0.0f;
+    private float m_maxAlpha = 0.2f;
+    private float m_rampUpTime = 0.001f;
+    private float m_holdTime = 0.001f;
+    private float m_rampDownTime = 0.001f;
+    private float m_chanceForFLash = 3f; // the higher the lower :D
 
-    enum FLASHSTATE { OFF, UP, HOLD, DOWN }
+    private enum FLASHSTATE { OFF, UP, HOLD, DOWN }
 
-    Timer timer;
+    Timer m_timer;
 
-    FLASHSTATE state = FLASHSTATE.OFF;
+    FLASHSTATE m_state = FLASHSTATE.OFF;
 
-
-    // Use this for initialization
-    void Start()
-    {
-        pixel = new Texture2D(1, 1);
-        color.a = startAlpha;
-        pixel.SetPixel(0, 0, color);
-        pixel.Apply();
-        // for testing
-        //TookDamage(new DamagePacket(1));
+    void Start(){
+        m_pixel = new Texture2D(1, 1);
+        m_color.a = m_startAlpha;
+        m_pixel.SetPixel(0, 0, m_color);
+        m_pixel.Apply();
     }
 
-    public void Update()
-    {
-        switch (state)
-        {
+    public void Update(){
+        switch (m_state){
             case FLASHSTATE.UP:
-                if (timer.UpdateAndTest())
-                {
-                    state = FLASHSTATE.HOLD;
-                    timer = new Timer(Mathf.Clamp(holdTime - Random.Range(0f,holdTime* chanceForFLash),0f,holdTime));
+                if (m_timer.UpdateAndTest()){
+                    m_state = FLASHSTATE.HOLD;
+                    m_timer = new Timer(Mathf.Clamp(m_holdTime - Random.Range(0f,m_holdTime* m_chanceForFLash),0f,m_holdTime));
                 }
                 break;
             case FLASHSTATE.HOLD:
-                if (timer.UpdateAndTest())
-                {
-                    state = FLASHSTATE.DOWN;
-                    timer = new Timer(Mathf.Clamp(rampDownTime - Random.Range(0f, holdTime * chanceForFLash), 0f, rampDownTime));
+                if (m_timer.UpdateAndTest()){
+                    m_state = FLASHSTATE.DOWN;
+                    m_timer = new Timer(Mathf.Clamp(m_rampDownTime - Random.Range(0f, m_holdTime * m_chanceForFLash), 0f, m_rampDownTime));
                 }
                 break;
             case FLASHSTATE.DOWN:
-                if (timer.UpdateAndTest())
-                {
-                    state = FLASHSTATE.OFF;
-                    timer = null;
+                if (m_timer.UpdateAndTest()){
+                    m_state = FLASHSTATE.OFF;
+                    m_timer = null;
                 }
                 break;
         }
-        /*
-        *
-        if (Input.GetButtonDown("MoveForwardButton_P1"))
-        {
-            ClashFlash();
-            Debug.Log("Flash!");
-        }
-        */
     }
 
     private void SetPixelAlpha(float a)
     {
-        color.a = a;
-        pixel.SetPixel(0, 0, color);
-        pixel.Apply();
+        m_color.a = a;
+        m_pixel.SetPixel(0, 0, m_color);
+        m_pixel.Apply();
     }
 
-    public void OnGUI()
+    private void OnGUI()
     {
-        switch (state)
+        switch (m_state)
         {
             case FLASHSTATE.UP:
-                SetPixelAlpha(Mathf.Lerp(startAlpha, maxAlpha, timer.Elapsed));
+                SetPixelAlpha(Mathf.Lerp(m_startAlpha, m_maxAlpha, m_timer.Elapsed));
                 break;
             case FLASHSTATE.DOWN:
-                SetPixelAlpha(Mathf.Lerp(maxAlpha, startAlpha, timer.Elapsed));
+                SetPixelAlpha(Mathf.Lerp(m_maxAlpha, m_startAlpha, m_timer.Elapsed));
                 break;
             case FLASHSTATE.OFF:
                 SetPixelAlpha(0f);
                 break;
         }
-        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), pixel);
+        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), m_pixel);
     }
 
     public void ClashFlash()
     {
-        timer = new Timer(Mathf.Clamp(rampUpTime - Random.Range(0f, rampUpTime * chanceForFLash), 0f, rampUpTime));
-        state = FLASHSTATE.UP;
+        m_timer = new Timer(Mathf.Clamp(m_rampUpTime - Random.Range(0f, m_rampUpTime * m_chanceForFLash), 0f, m_rampUpTime));
+        m_state = FLASHSTATE.UP;
         //Debug.Log("Flash Called from Clash");
     }
 

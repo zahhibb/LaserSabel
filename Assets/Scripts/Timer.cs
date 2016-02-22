@@ -6,8 +6,7 @@ using System.Collections;
  * Curtesy of Jeff Kasselman
  ***/
 
-public class Timer
-{
+public class Timer {
     float m_timeElapsed;
     float m_totalTime;
 
